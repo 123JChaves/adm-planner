@@ -52,8 +52,8 @@ export default function CreateUser() {
             <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Cadastrar Usuários</h1>
-                    <Link href={'/users/list'} className="bg-blue-500
-                    text-white px-4 py-2 rounded-md hover:bg-blue-600">Listar</Link>
+                    <Link href={'/users/list'} className="bg-cyan-500
+                    text-white px-4 py-2 rounded-md hover:bg-cyan-600">Listar</Link>
                 </div>
             
             {/* Erro ao exibir o usuário */}
