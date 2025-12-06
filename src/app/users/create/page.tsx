@@ -4,7 +4,7 @@ import instancia from "@/service/api";
 import Link from "next/link";
 import React, { useState } from "react"
 
-export default function createUser() {
+export default function CreateUser() {
 
     const [nome, setNome] = useState<string>("");
 
@@ -49,42 +49,49 @@ export default function createUser() {
 
             <Menu /><br />
 
-            <h2>Cadastrar Usuário</h2><br />
+            <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Cadastrar Usuários</h1>
+                    <Link href={'/users/list'} className="bg-blue-500
+                    text-white px-4 py-2 rounded-md hover:bg-blue-600">Listar</Link>
+                </div>
+            
+            {/* Erro ao exibir o usuário */}
+            {error && <p className="text-red-500 mt-4">{error}</p>}
 
-            <Link href={'/users/list'}>Listar</Link>
+            {/* Sucesso ao cadastrar o usuário */}
+            {success && <p className="text-green-500 mt-4">{success}</p>}
 
-            {/* Sucesso ao cadastrar o usuário */}    
-            {success && <p style={{ color: '#086' }}>{success}</p>}
-
-            {/* Erro ao cadastrar o usuário */}    
-            {error && <p style={{ color: '#f00' }}>{error}</p>}<br /><br />
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nome">Nome: </label>
+            <form onSubmit={handleSubmit} className="mt-6 bg-white shadow-md
+            round-lg p-6">
+                <div className="mb-4">
+                    <label htmlFor="nome" className="block text-sm font-semibold">Nome: </label>
                     <input
                         type="text"
                         id="nome"
                         value={nome}
                         placeholder="Nome completo do usuário"
                         onChange={(e) => setNome(e.target.value)}
-                        className="border rounded-md">
+                        className="border p-2 w-full mt-1 rounded-md border-blue-100 shadow-sm
+                        focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none">
                     </input>
                 </div><br />
-                <div>
-                    <label htmlFor="email">Email: </label>
+                <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-semibold">Email: </label>
                     <input
                         type="email"
                         id="email"
                         value={email}
-                        placeholder="Digitre o melhor email"
+                        placeholder="Digite o melhor email"
                         onChange={(e) => setEmail(e.target.value)}
-                        className="border rounded-md">
+                        className="border p-2 w-full mt-1 rounded-md border-blue-100 shadow-sm
+                        focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none">
                     </input>
                 </div><br />
-                <button type="submit">Cadastrar</button>
+                <button type="submit" className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600">Cadastrar</button>
             </form>
 
+            </div>
         </div>
     )
 
