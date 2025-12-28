@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Logos ADM",
+  title: "Planner ADM",
   description: "Painel de Controle",
 };
 

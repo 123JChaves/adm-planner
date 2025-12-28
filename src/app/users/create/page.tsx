@@ -65,7 +65,7 @@ export default function CreateUser() {
             <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Cadastrar Usuários</h1>
-                    <Link href={'/users/list'} className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600">Listar</Link>
+                    <Link href={'/users/list'} className="bg-cyan-500 text-white px-2 py-1 rounded-md hover:bg-cyan-600">Listar</Link>
                 </div>
             
                 <AlertMessage type="error" message={error} />
@@ -132,7 +132,7 @@ export default function CreateUser() {
                         />
                     </div>
 
-                    <button type="submit" className="w-full md:w-auto px-6 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-bold transition-colors">
+                    <button type="submit" className="w-full md:w-auto px-3 p-1 bg-green-500 text-white rounded-md hover:bg-green-600 font-bold transition-colors">
                         Cadastrar Usuário
                     </button>
                 </form>

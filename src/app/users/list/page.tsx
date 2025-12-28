@@ -83,6 +83,7 @@ export default function Users() {
                                 <td className="border border-gray-300 p-3">{user.id}</td>
                                 <td className="border border-gray-300 p-3">{user.nome}</td>
                                 <td className="border border-gray-300 p-3">{user.email}</td>
+
                                 <td className="border border-gray-300 p-3 text-center space-x-1
                                 flex justify-center items-center">
                                 <Link href={`/users/${user.id}`} className="bg-blue-500
@@ -94,8 +95,7 @@ export default function Users() {
                                     route="users"
                                     onSuccess={handleSuccess}
                                     setError={setError}
-                                    setSuccess={setSuccess}
-                                />
+                                    setSuccess={setSuccess} />
                                 </td>
                             </tr>
                         ))}
