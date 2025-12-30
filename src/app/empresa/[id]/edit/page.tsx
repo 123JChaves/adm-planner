@@ -98,7 +98,7 @@ export default function EditEmpresa() {
         if (id) fetchData();
     }, [id]);
 
-    // 2. FUNÇÕES DE FILTRO (RESTAURADAS)
+    // 2. FUNÇÕES DE FILTRO
     const filtrar = (lista: any[], busca: string) => {
         if (!busca || busca.length < 1) return [];
         return lista.filter((item) => item.nome.toLowerCase().includes(busca.toLowerCase()));
@@ -203,7 +203,7 @@ export default function EditEmpresa() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
+        <div className="flex flex-col min-h-screen bg-gray-200 text-black">
 
             <Menu /><br />
             

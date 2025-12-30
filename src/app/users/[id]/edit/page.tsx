@@ -71,7 +71,7 @@ export default function EditUser() {
         }, [id]);
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100 text-black">
+        <div className="flex flex-col h-screen bg-gray-200 text-black">
 
             <Menu /><br />
 

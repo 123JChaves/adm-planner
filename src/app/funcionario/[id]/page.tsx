@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import instancia from "@/service/api";
 import Menu from "@/components/Menu";
 import Link from "next/link";
@@ -68,7 +68,7 @@ export default function FuncionarioDetails() {
     if (!funcionario) return <div className="text-center py-20">Carregando dados...</div>;
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
+        <div className="flex flex-col min-h-screen bg-gray-200 text-black">
             <Menu /><br />
 
             <div className="flex-1 px-4 py-6 max-w-5xl mx-auto w-full">

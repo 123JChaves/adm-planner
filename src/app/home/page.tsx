@@ -16,7 +16,7 @@ export default function HomePage() { // Nome alterado para HomePage para melhor 
   }, []);
 
   return (
-     <div className="flex flex-col h-screen bg-gray-100 text-black">
+     <div className="flex flex-col h-screen bg-gray-200 text-black">
       <Menu />
       <div className="p-8">
         <h1 className="text-2xl font-bold">Bem-vindo, {userName || "Carregando..."}!</h1>

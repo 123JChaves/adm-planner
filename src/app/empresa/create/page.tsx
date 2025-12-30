@@ -185,7 +185,7 @@ export default function CreateEmpresa() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
+        <div className="flex flex-col min-h-screen bg-gray-200 text-black">
         <Menu />
             <div className="flex-1 px-4 py-6 max-w-5xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">

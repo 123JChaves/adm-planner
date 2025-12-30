@@ -53,7 +53,7 @@ export default function Users() {
     }, []);
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100 text-black h-full mx-auto">
+        <div className="flex flex-col h-screen bg-gray-200 text-black h-full mx-auto">
             <Menu /><br />
             <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
