@@ -75,14 +75,14 @@ export default function EditUser() {
 
             <Menu /><br />
 
-            <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
+            <div className="flex-1 px-4 py-6 max-w-5xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Editar Usuário</h1>
                     <span>
                     <Link href={'/users/list'} className="bg-cyan-500
-                    text-white px-4 py-2 me-1 rounded-md hover:bg-cyan-600">Listar</Link>
+                    text-white px-2 py-1 me-1 rounded-md hover:bg-cyan-600">Listar</Link>
                     <Link href={`/users/${id}`} className="bg-blue-500
-                    text-white px-4 py-2 me-1 rounded-md hover:bg-blue-600">Visualizar</Link>
+                    text-white px-2 py-1 me-1 rounded-md hover:bg-blue-600">Visualizar</Link>
                     </span>
                 </div>
             
@@ -118,7 +118,7 @@ export default function EditUser() {
                         focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none">
                     </input>
                 </div><br />
-                <button type="submit" className="p-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Salvar</button>
+                <button type="submit" className="p-2 bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">Salvar</button>
             </form>
 
             </div>

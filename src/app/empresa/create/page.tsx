@@ -58,7 +58,7 @@ export default function CreateEmpresa() {
             setDbPaises(resP.data);
             setDbEstados(resE.data);
             setDbCidades(resC.data);
-            setDbBairros(resB.data.bairro || resB.data);
+            setDbBairros(resB.data);
             setDbLogradouros(resL.data);
             } catch (err) {
             setError("Erro ao sincronizar listas de endereços.");
@@ -107,12 +107,12 @@ export default function CreateEmpresa() {
     if (!textoLogradouro?.trim()) novosErros.logradouro = "Selecione a rua";
     if (!numero?.trim()) novosErros.numero = "Preencha o número";
     if (!latitude) novosErros.latitude = "Latitude necessária";
+    if (!longitude?.trim()) novosErros.longitude = "Longitude necessária";
 
     if (Object.keys(novosErros).length > 0) {
         setErros(novosErros); // Exibe as labels vermelhas
 
-        // SÓ exibe o AlertMessage do topo se ele ainda não estiver visível
-        // ou se for a primeira tentativa de erro.
+        // Exibe o AlertMessage
         if (!error) {
             setError("Preencha todos os campos.");
         }
@@ -127,7 +127,7 @@ export default function CreateEmpresa() {
         nome,
         cnpj,
         logradouro: {
-            id: idLogradouro, // Find or Create no Backend
+            id: idLogradouro,
             nome: textoLogradouro,
             numero: Number(numero),
             latitude,
@@ -242,7 +242,7 @@ export default function CreateEmpresa() {
 
             <div className="md:col-span-2 pb-2 mt-4 mb-2">
                 <h2 className="text-lg font-semibold text-blue-700">Localização</h2>
-                </div>
+            </div>
 
                 <AutocompleteInput 
                     label="País"
@@ -251,8 +251,8 @@ export default function CreateEmpresa() {
                     onChange={(v) => handleInput(v, dbPaises, setTextoPais, setIdPais, "pais")}
                     sugestoes={filtrar(dbPaises, textoPais)}
                     onSelect={(i) => { 
-                        setTextoPais(i.nome); 
-                        setIdPais(i.id); 
+                        setTextoPais(i.nome);
+                        setIdPais(i.id);
                         setTextoEstado(""); // Limpa o texto do próximo
                         setIdEstado(null);  // Limpa o ID do próximo para a cascata funcionar
                         setErros(prev => ({ ...prev, pais: "" })); // Limpa o erro ao selecionar
