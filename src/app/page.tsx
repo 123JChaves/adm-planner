@@ -36,8 +36,8 @@ export default function HomePage() { // Nome alterado para HomePage para melhor 
           <Link href="/empresa/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Empresas
           </Link>
-          <Link href="/funcionario/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
-            Gerenciar Funcionários
+          <Link href="/solicitacoes/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+            Gerenciar Solicitações
           </Link>
           <Link href="/corridas/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Corridas

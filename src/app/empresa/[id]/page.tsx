@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import instancia from "@/service/api";
@@ -6,6 +7,7 @@ import Link from "next/link";
 import Menu from "@/components/Menu";
 import DeleteButton from "@/components/DeleteButton";
 import AlertMessage from "@/components/AlertMessage";
+import Swal from "sweetalert2";
 
 interface Funcionario {
     id: number;
@@ -59,13 +61,13 @@ export default function EmpresaDetails() {
     };
 
     const fetchFuncionarios = async (empresaId: string) => {
-    try {
-        const response = await instancia.get(`/empresa/${empresaId}/funcionario`);
-        setFuncionarios(response.data.funcionarios || response.data);
-    } catch (err) {
-        console.error("Erro ao buscar funcionários", err);
-    }
-};
+        try {
+            const response = await instancia.get(`/empresa/${empresaId}/funcionario`);
+            setFuncionarios(response.data.funcionarios || response.data);
+        } catch (err) {
+            console.error("Erro ao buscar funcionários", err);
+        }
+    };
 
     const handleSuccess = () => {
         sessionStorage.setItem("successMessage", "Empresa excluída com sucesso");
@@ -79,6 +81,43 @@ export default function EmpresaDetails() {
         fetchFuncionarios(empresaId); // Busca os funcionários da empresa
         }
     }, [id]);
+
+    const handleDeleteFuncionario = async (funcId: number, funcNome: string) => {
+        const result = await Swal.fire({
+            title: 'Excluir Funcionário?',
+            text: `Tem certeza que deseja remover ${funcNome}? Esta ação não pode ser desfeita.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#2e60c4ff',
+            confirmButtonText: 'Sim, excluir',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                // Chamada para a rota de exclusão de funcionários
+                await instancia.delete(`/funcionario/${funcId}`);
+                
+                // Atualiza a lista local removendo o funcionário deletado (sem recarregar a página)
+                setFuncionarios((prev) => prev.filter(f => f.id !== funcId));
+                
+                setSuccess("Funcionário excluído com sucesso!");
+                
+                // Alerta de sucesso opcional
+                Swal.fire({
+                    title: 'Excluído!',
+                    text: 'O funcionário foi removido do sistema.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } catch (err: any) {
+                setError(err.response?.data?.message || "Erro ao excluir funcionário.");
+                Swal.fire('Erro!', 'Não foi possível excluir o registro.', 'error');
+            }
+        }
+    };
 
     return (
     <div className="flex flex-col min-h-screen bg-gray-200 text-black">
@@ -177,10 +216,26 @@ export default function EmpresaDetails() {
                                             <td className="p-3 font-mono text-sm text-gray-600">{func.cpf}</td>
                                             <td className="p-3 text-center">
                                                 <div className="flex justify-center space-x-1">
-                                                    <Link href={`/funcionario/${func.id}`} className="bg-purple-500 text-white px-2 py-1 rounded text-[10px] 
-                                                    font-bold hover:bg-purple-600 uppercase">Visualizar</Link>
-                                                    <Link href={`/funcionario/${func.id}/edit`} className="bg-yellow-500 text-white px-2 py-1 rounded text-[10px] 
-                                                    font-bold hover:bg-yellow-600 uppercase">Editar</Link>
+                                                    <Link 
+                                                        href={`/funcionario/${func.id}`} 
+                                                        className="bg-purple-500 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-purple-600 uppercase"
+                                                    >
+                                                        Visualizar
+                                                    </Link>
+                                                    <Link 
+                                                        href={`/funcionario/${func.id}/edit`} 
+                                                        className="bg-yellow-500 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-yellow-600 uppercase"
+                                                    >
+                                                        Editar
+                                                    </Link>
+                                                    
+                                                    {/* BOTÃO DE EXCLUIR */}
+                                                    <button 
+                                                        onClick={() => handleDeleteFuncionario(func.id, func.nome)}
+                                                        className="bg-red-600 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-red-700 uppercase transition-colors"
+                                                    >
+                                                        Excluir
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -190,11 +245,11 @@ export default function EmpresaDetails() {
                         </div>
                     ) : (
                         <div className="text-center py-6 text-gray-500 italic">Nenhum funcionário encontrado.</div>
-                    )};
+                    )}
                     </div>
                 </div>
             )}
         </div>
     </div>
-    );
+    )
 }

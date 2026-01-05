@@ -78,7 +78,7 @@ export default function FuncionarioDetails() {
                     <div className="flex space-x-3">
                         <button 
                             onClick={() => router.back()} 
-                            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-all"
+                            className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600 transition-all"
                         >
                             Voltar
                         </button>

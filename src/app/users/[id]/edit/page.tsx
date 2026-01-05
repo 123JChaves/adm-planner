@@ -9,13 +9,9 @@ import AlertMessage from "@/components/AlertMessage";
 export default function EditUser() {
 
     const {id} = useParams();
-
     const [nome, setNome] = useState<string>("");
-
     const [email, setEmail] = useState<string>("");
-
     const [error, setError] = useState<string | null>(null);
-
     const [success, setSuccess] = useState<string | null>(null);
 
     const fetchUserDetail = async() => {
@@ -26,7 +22,6 @@ export default function EditUser() {
             // console.log(response.data.user);
 
             setNome(response.data.user.nome);
-
             setEmail(response.data.user.email);
         
             
@@ -36,12 +31,10 @@ export default function EditUser() {
         }
     }
 
-    const handleSubmit = async(event: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         
-        event.preventDefault();
-
+        e.preventDefault();
         setError(null);
-
         setSuccess(null);
 
         try {
@@ -51,24 +44,22 @@ export default function EditUser() {
                 email: email,
             });
 
-            console.log(response.data);
-
+            //console.log(response.data);
             setSuccess(response.data.message);
             
         } catch (error: any) {
             console.log(error.response.data);
-
             setError(error.response?.data?.message  || "Erro ao atualizar o usuário");
         }
         
     }
 
-        useEffect(() => {
-    
-            if (id) {
-                fetchUserDetail();
-            }
-        }, [id]);
+    useEffect(() => {
+
+        if (id) {
+            fetchUserDetail();
+        }
+    }, [id]);
 
     return (
         <div className="flex flex-col h-screen bg-gray-200 text-black">

@@ -6,6 +6,8 @@ const Menu = () => {
     // Estados independentes para cada dropdown
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isEmpresaOpen, setIsEmpresaOpen] = useState(false);
+    const [isMotoristaOpen, setIsMotoristaOpen] = useState(false);
+    const [isCarroOpen, setIsCarroOpen] = useState(false);
 
     return (
         <div className="bg-blue-700 text-white p-4 w-full relative z-50 shadow-md">
@@ -66,6 +68,54 @@ const Menu = () => {
                         )}
                     </li>
 
+                    {/* Menu Cascata: Motoristas */}
+                    <li 
+                        className="relative"
+                        onMouseEnter={() => setIsMotoristaOpen(true)}
+                        onMouseLeave={() => setIsMotoristaOpen(false)}
+                    >
+                        <button className="flex items-center hover:text-gray-300 focus:outline-none transition-colors py-2">
+                            Motoristas
+                            <svg className={`ml-1 w-4 h-4 transition-transform ${isMotoristaOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isMotoristaOpen && (
+                            <div className="absolute left-0 mt-0 w-48 bg-white text-black rounded-md shadow-xl py-2 border border-gray-200">
+                                <Link href="/motorista/list" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Listar Motoristas
+                                </Link>
+                                <Link href="/motorista/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Cadastrar Motoristas
+                                </Link>
+                            </div>
+                        )}
+                    </li>
+                    {/* Menu Cascata: Carros */}
+                    <li 
+                        className="relative"
+                        onMouseEnter={() => setIsCarroOpen(true)}
+                        onMouseLeave={() => setIsCarroOpen(false)}
+                    >
+                        <button className="flex items-center hover:text-gray-300 focus:outline-none transition-colors py-2">
+                            Carros
+                            <svg className={`ml-1 w-4 h-4 transition-transform ${isCarroOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isCarroOpen && (
+                            <div className="absolute left-0 mt-0 w-48 bg-white text-black rounded-md shadow-xl py-2 border border-gray-200">
+                                <Link href="/carro/list" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Listar Carros
+                                </Link>
+                                <Link href="/carro/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Cadastrar Carros
+                                </Link>
+                            </div>
+                        )}
+                    </li>
                     <li>
                         <Link href="#" className="hover:text-red-300 transition-colors text-red-200">Sair</Link>
                     </li>

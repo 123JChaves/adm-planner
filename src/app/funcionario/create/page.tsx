@@ -300,7 +300,6 @@ export default function CreateFuncionario() {
                             setErros(prev => ({ ...prev, estado: "" }));
                         }}
                         isNovo={!idEstado && textoEstado.length > 0}
-                        disabled={!idPais} // Bloqueia se não tiver país
                         placeholder="Digite o nome do estado"
                     />
 
@@ -319,7 +318,6 @@ export default function CreateFuncionario() {
                             setErros(prev => ({ ...prev, cidade: "" }));
                         }}
                         isNovo={!idCidade && textoCidade.length > 0}
-                        disabled={!idEstado}
                         placeholder="Digite o nome da cidade"
                     />
 
@@ -338,7 +336,6 @@ export default function CreateFuncionario() {
                             setErros(prev => ({ ...prev, bairro: "" }));
                         }}
                         isNovo={!idBairro && textoBairro.length > 0}
-                        disabled={!idCidade}
                         placeholder="Digite o nome do bairro"
                     />
 
@@ -355,7 +352,6 @@ export default function CreateFuncionario() {
                             setErros(prev => ({ ...prev, logradouro: "" }));
                         }}
                         isNovo={!idLogradouro && textoLogradouro.length > 0}  
-                        disabled={!idBairro}
                         placeholder="Digite o nome da rua"
 
                     />

@@ -15,23 +15,21 @@ interface User {
 export default function Users() {
 
     const [error, setError] = useState<string | null>(null);
-
     const [success, setSuccess] = useState<string | null>(null);
-
     const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchUsers = async () => {
     
         try {
-        
+            setLoading(true)
             const response = await instancia.get('/users');
-        
-            //console.log(response);
-        
             setUsers(response.data);
 
         } catch (error) {
             setError("Erro ao carregar os usuários!");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -68,6 +66,12 @@ export default function Users() {
             <AlertMessage type="success" message={success} />
 
             <div className="mt-6 bg-white shadow-md rounded-lg p-6">
+            {loading ? (
+                    <div className="flex justify-center items-center py-10">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <span className="ml-3">Carregando dados...</span>
+                    </div>
+                ) : (
             <table className="w-full border-collapse">
                 <thead>
                     <tr className="bg-gray-200">
@@ -101,6 +105,7 @@ export default function Users() {
                         ))}
                 </tbody>
             </table>
+            )}
             </div>
             </div>
         </div>
