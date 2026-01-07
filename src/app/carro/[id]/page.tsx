@@ -6,7 +6,6 @@ import instancia from "@/service/api";
 import Menu from "@/components/Menu";
 import Link from "next/link";
 import AlertMessage from "@/components/AlertMessage";
-import DeleteButton from "@/components/DeleteButton";
 import Swal from "sweetalert2";
 
 interface Categoria {
@@ -28,8 +27,10 @@ interface Carro {
 
 interface Motorista {
     id: number;
+    pessoa: {
     nome: string;
     cpf: string;
+    }
 }
 
 export default function CarroDetails() {
@@ -89,18 +90,6 @@ export default function CarroDetails() {
         }
     };
 
-    if (loading) return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
-            <Menu /><div className="flex-1 p-10 text-center font-bold italic text-gray-500">Buscando informações...</div>
-        </div>
-    );
-
-    if (!carro) return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
-            <Menu /><div className="flex-1 p-10 text-center text-red-500 font-bold">Carro não encontrado.</div>
-        </div>
-    );
-
     return (
         <div className="flex flex-col min-h-screen bg-gray-200 text-black">
             <Menu />
@@ -128,74 +117,80 @@ export default function CarroDetails() {
                 <AlertMessage type="error" message={error} />
                 <AlertMessage type="success" message={success} />
 
-                {/* GRID PRINCIPAL */}
+                {loading ? (
+                    <div className="flex justify-center items-center py-10">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <span className="ml-3">Carregando informações...</span>
+                    </div>
+                ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                    
-                    {/* COLUNA 1: DADOS TÉCNICOS (1/3 da largura) */}
                     <div className="bg-white p-6 rounded-lg shadow-md md:col-span-1 border-t-4 border-blue-500">
                         <h2 className="text-sm font-bold text-gray-400 uppercase mb-4 border-b pb-2">Dados do Carro</h2>
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-[10px] font-bold text-gray-400 uppercase">Marca / Modelo</label>
-                                <p className="text-lg font-bold text-gray-800">{carro.marca} {carro.modelo}</p>
+                                <p className="text-lg font-bold text-gray-800">{carro?.marca} {carro?.modelo}</p>
                             </div>
                             
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-[10px] font-bold text-gray-400 uppercase">Cor</label>
-                                    <p className="text-sm font-medium">{carro.cor}</p>
+                                    <p className="text-sm font-medium">{carro?.cor}</p>
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-bold text-gray-400 uppercase">Placa</label>
                                     <p className="text-sm font-mono font-bold bg-gray-100 px-2 py-0.5 rounded border border-gray-200 inline-block">
-                                        {carro.placa}
+                                        {carro?.placa}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="pt-4 border-t space-y-2">
                                 <p className="text-[11px] text-gray-500">
-                                    <strong>ID do Registro:</strong> {carro.id}
+                                    <strong>ID do Registro:</strong> {carro?.id}
                                 </p>
                                 <p className="text-[11px] text-gray-500">
-                                    <strong>Criado em:</strong> {carro.createDate ? new Date(carro.createDate).toLocaleString('pt-BR') : '---'}
+                                    <strong>Criado em:</strong> {carro?.createDate ? new Date(carro.createDate).toLocaleString('pt-BR') : '---'}
                                 </p>
                                 <p className="text-[11px] text-gray-500">
-                                    <strong>Última Atualização:</strong> {carro.updateDate ? new Date(carro.updateDate).toLocaleString('pt-BR') : '---'}
+                                    <strong>Última Atualização:</strong> {carro?.updateDate ? new Date(carro.updateDate).toLocaleString('pt-BR') : '---'}
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    {/* COLUNA 2: MOTORISTAS VINCULADOS (2/3 da largura) */}
                     <div className="bg-white p-6 rounded-lg shadow-md md:col-span-2 border-t-4 border-green-500">
                         <div className="flex justify-between items-center mb-4 border-b pb-2">
                             <h2 className="text-sm font-bold text-gray-400 uppercase">Motoristas Vinculados</h2>
                             <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">
-                                {carro.motoristas?.length || 0} Vinculado(s)
+                                {carro?.motoristas?.length || 0} Vinculado(s)
                             </span>
                         </div>
 
-                        {carro.motoristas && carro.motoristas.length > 0 ? (
+                        {carro?.motoristas && carro.motoristas.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {carro.motoristas.map((mot) => (
                                     <div key={mot.id} className="group border border-gray-100 p-3 rounded-lg flex justify-between items-center bg-gray-50 hover:bg-white hover:shadow-md transition-all">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-inner">
-                                                {mot.nome.charAt(0).toUpperCase()}
+                                                {/* CORREÇÃO AQUI: Proteção com Optional Chaining e Fallback */}
+                                                {(mot.pessoa?.nome || mot.pessoa.nome || "?").charAt(0).toUpperCase()}
                                             </div>
                                             <div>
                                                 <Link 
                                                     href={`/motorista/${mot.id}`} 
                                                     className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors block"
                                                 >
-                                                    {mot.nome}
+                                                    {/* CORREÇÃO AQUI: Exibição segura do nome */}
+                                                    {mot.pessoa?.nome || mot.pessoa.nome || `Motorista #${mot.id}`}
                                                 </Link>
-                                                <p className="text-[10px] text-gray-500 font-mono tracking-tighter">CPF: {mot.cpf}</p>
+                                                {/* CORREÇÃO AQUI: CPF pode estar em pessoa ou na raiz */}
+                                                <p className="text-[10px] text-gray-500 font-mono tracking-tighter">
+                                                    CPF: {mot.pessoa?.cpf || mot.pessoa.cpf || "---"}
+                                                </p>
                                             </div>
                                         </div>
 
-                                        {/* AÇÃO DE DESVINCULAR */}
                                         <button 
                                             onClick={() => handleDesvincular(mot.id)}
                                             className="flex items-center justify-center bg-gray-100 text-red-500 hover:text-white hover:bg-red-500 border border-gray-200 rounded-md w-8 h-8 transition-all"
@@ -209,6 +204,7 @@ export default function CarroDetails() {
                                 ))}
                             </div>
                         ) : (
+
                             <div className="flex flex-col items-center justify-center py-12 text-gray-400">
                                 <svg xmlns="www.w3.org" className="h-12 w-12 mb-2 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -218,6 +214,7 @@ export default function CarroDetails() {
                         )}
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );

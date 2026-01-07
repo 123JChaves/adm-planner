@@ -62,8 +62,8 @@ export default function EditFuncionario() {
                 setDbLogradouros(resL.data);
 
                 const fun = resFun.data.funcionario || resFun.data;
-                setNome(fun.nome || "");
-                setCpf(fun.cpf || "");
+                setNome(fun.pessoa.nome || "");
+                setCpf(fun.pessoa.cpf || "");
 
                 if (fun.empresa) {
                 setIdEmpresa(fun.empresa.id);
@@ -185,29 +185,31 @@ export default function EditFuncionario() {
         setLoading(true);
         try {
             await instancia.put(`/funcionario/${id}`, {
+                pessoa: {
                 nome, 
                 cpf,
-                logradouro: {
-                    id: idLogradouro,
-                    nome: textoLogradouro,
-                    bairro: {
-                        id: idBairro,
-                        nome: textoBairro,
-                        cidade: {
-                            id: idCidade,
-                            nome: textoCidade,
-                            estado: {
-                                id: idEstado,
-                                nome: textoEstado,
-                                pais: {
-                                    id: idPais,
-                                    nome: textoPais
+                }, logradouro: {
+                        id: idLogradouro,
+                        nome: textoLogradouro,
+                        bairro: {
+                            id: idBairro,
+                            nome: textoBairro,
+                            cidade: {
+                                id: idCidade,
+                                nome: textoCidade,
+                                estado: {
+                                    id: idEstado,
+                                    nome: textoEstado,
+                                    pais: {
+                                        id: idPais,
+                                        nome: textoPais
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            });
+            );
             setSuccess("Funcionario atualizado com sucesso!")
         } catch(error: any) {
             setError(error.response?.data?.message || "Erro ao atualizar funcionario");
@@ -246,14 +248,27 @@ export default function EditFuncionario() {
                         <h2 className="text-lg font-semibold text-blue-700">Dados do Funcionário</h2>
                     </div>
 
-                    {/* Campo de Nome */}
+                    {/* Campo Nome */}
                     <div className="flex flex-col">
                         <label className="font-bold text-sm mb-1">Nome do Funcionário:</label>
                         <input
-                            type="text" value={nome}
+                            type="text" 
+                            value={nome} // Corrigido: usa a variável 'nome' declarada no useState
                             onChange={(e) => {
-                                setNome(e.target.value); if(erros.nome) setErros(prev => ({...prev, nome: ""})); }}
-                            className={`border p-2 rounded outline-none transition-all focus:ring-2 ${erros.nome ? 'border-red-500 bg-red-50 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-300'}`}
+                                const value = e.target.value;
+                                setNome(value); 
+                                
+                                // Corrigido: acessa erros.nome conforme seu handleSubmit
+                                if (erros.nome) {
+                                    setErros(prev => ({
+                                        ...prev,
+                                        nome: ""
+                                    }));
+                                }
+                            }}
+                            className={`border p-2 rounded outline-none transition-all focus:ring-2 ${
+                                erros.nome ? 'border-red-500 bg-red-50 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-300'
+                            }`}
                         />
                         {erros.nome && <span className="text-red-500 text-xs font-bold mt-1">{erros.nome}</span>}
                     </div>
@@ -262,13 +277,14 @@ export default function EditFuncionario() {
                     <div className="flex flex-col">
                         <label className="font-bold text-sm mb-1">CPF:</label>
                         <input 
-                            type="text" value={cpf} 
-                            readOnly
-                            onChange={(e) => {
-                                setCpf(e.target.value); if (erros.cpf) setErros(prev => ({...prev, cnpj: ""})); }}
-                            className={`border p-2 rounded outline-none transition-all focus:ring-2 ${erros.cpf ? 'border-red-500 bg-red-50 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-300'}`}
+                            type="text" 
+                            value={cpf} // Corrigido: usa a variável 'cpf' declarada no useState
+                            readOnly 
+                            className={`border p-2 rounded outline-none bg-gray-100 cursor-not-allowed ${
+                                erros.cpf ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         />
-                        {erros.cnpj && <span className="text-red-500 text-xs font-bold mt-1">{erros.cpf}</span>}
+                        {erros.cpf && <span className="text-red-500 text-xs font-bold mt-1">{erros.cpf}</span>}
                     </div>
 
                     <div className="md:col-span-2 mt-4 pb-2 mb-2">

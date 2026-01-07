@@ -22,10 +22,9 @@ export default function MotoristaEdit() {
         const fetchDataMotorista = async () => {
             try {
                 const res = await instancia.get(`/motorista/${id}`);
-                // Certifique-se de acessar o campo correto conforme seu backend
                 const data = res.data.motorista || res.data;
-                setNome(data.nome);
-                setCpf(data.cpf);
+                setNome(data.pessoa.nome);
+                setCpf(data.pessoa.cpf);
             } catch (err: any) {
                 setError("Erro ao sincronizar os dados do motorista.");
             }

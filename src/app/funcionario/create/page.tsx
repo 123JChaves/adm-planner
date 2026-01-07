@@ -104,47 +104,36 @@ export default function CreateFuncionario() {
         setSuccess(null);
 
         if (!idEmpresa) {
-            setError("ID da empresa não encontrado na URL.");
+            setError("ID da empresa não identificado.");
             return;
         }
 
         const novosErros: Record<string, string> = {};
-
-        // 1. Validação detalhada
-        if (!nome?.trim()) novosErros.nome = "Preencha o nome fantasia";
-        if (!cpf?.trim()) novosErros.cpf = "Preencha o CPF";
-        if (!textoPais?.trim()) novosErros.pais = "Selecione o país";
-        if (!textoEstado?.trim()) novosErros.estado = "Selecione o estado";
-        if (!textoCidade?.trim()) novosErros.cidade = "Selecione a cidade";
-        if (!textoBairro?.trim()) novosErros.bairro = "Selecione o bairro";
-        if (!textoLogradouro?.trim()) novosErros.logradouro = "Selecione a rua";
-        if (!numero?.trim()) novosErros.numero = "Preencha o número";
-        if (!latitude) novosErros.latitude = "Latitude necessária";
-        if (!longitude?.trim()) novosErros.longitude = "Longitude necessária";
+        if (!nome?.trim()) novosErros.nome = "Nome é obrigatório";
+        if (!cpf?.trim()) novosErros.cpf = "CPF é obrigatório";
+        if (!textoLogradouro?.trim()) novosErros.logradouro = "Logradouro é obrigatório";
+        if (!numero?.trim()) novosErros.numero = "Número é obrigatório";
 
         if (Object.keys(novosErros).length > 0) {
-            setErros(novosErros); // Exibe as labels vermelhas
-
-            // Exibe o AlertMessage
-            if (!error) {
-                setError("Preencha todos os campos.");
+            setErros(novosErros);
+            if(!error) {
+            setError("Preencha os campos obrigatórios.");
             }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
         setLoading(true);
-        
+
         const payload = {
-            nome,
-            cpf,
+            nome: nome.trim(),
+            cpf: cpf.trim(),
             logradouro: {
                 id: idLogradouro,
                 nome: textoLogradouro,
                 numero: Number(numero),
-                latitude,
-                longitude,
+                latitude: latitude,
+                longitude: longitude,
                 bairro: {
                     id: idBairro,
                     nome: textoBairro,
@@ -162,37 +151,26 @@ export default function CreateFuncionario() {
         };
 
         try {
-            // URL corrigida com o idEmpresa capturado
             await instancia.post(`/empresa/${idEmpresa}/funcionario`, payload);
             setSuccess("Funcionário cadastrado com sucesso!");
-
-            // Resetar campos principais
+            
+            // Resetar estados
             setNome("");
             setCpf("");
-
-            // --- LIMPEZA DA HIERARQUIA DE ENDEREÇO (TEXTO) ---
-            setTextoPais("");
-            setTextoEstado("");
-            setTextoCidade("");
-            setTextoBairro("");
-            setTextoLogradouro("");
-
-            // --- LIMPEZA DOS IDs (IMPORTANTE PARA O AUTOCOMPLETE) ---
-            setIdPais(null);
-            setIdEstado(null);
-            setIdCidade(null);
-            setIdBairro(null);
-            setIdLogradouro(null);
-
-            // --- LIMPEZA DOS CAMPOS MANUAIS ---
             setNumero("");
+            setTextoLogradouro("");
+            setTextoBairro("");
+            setTextoCidade("");
+            setTextoEstado("");
+            setTextoPais("");
             setLatitude("");
             setLongitude("");
 
-        } catch (error: any) {
-            setError(error.response?.data?.message || "Erro ao cadastrar funcionário.");
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Erro ao cadastrar funcionário.");
         } finally {
             setLoading(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 

@@ -10,10 +10,12 @@ import AlertMessage from "@/components/AlertMessage";
 
 interface Funcionario {
     id: number;
+    pessoa: {
     nome: string;
     cpf: string;
     createDate: string;
     updateDate: string;
+    }
     empresa: {
         id: number;
         nome: string;
@@ -99,8 +101,8 @@ export default function FuncionarioDetails() {
                             <h2 className="text-lg font-bold mb-4 text-purple-700 uppercase border-b pb-2">Identificação</h2>
                             <div className="space-y-3">
                                 <div><label className="text-xs text-gray-500 block">ID do Registro</label><span className="font-mono">{funcionario.id}</span></div>
-                                <div><label className="text-xs text-gray-500 block">Nome Completo</label><span className="font-bold">{funcionario.nome}</span></div>
-                                <div><label className="text-xs text-gray-500 block">CPF</label><span>{funcionario.cpf}</span></div>
+                                <div><label className="text-xs text-gray-500 block">Nome Completo</label><span className="font-bold">{funcionario?.pessoa?.nome}</span></div>
+                                <div><label className="text-xs text-gray-500 block">CPF</label><span>{funcionario?.pessoa?.cpf}</span></div>
                             </div>
                         </div>
 
@@ -137,11 +139,11 @@ export default function FuncionarioDetails() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="text-xs text-gray-500 block">Data de Registro</label>
-                                    <span>{new Date(funcionario.createDate).toLocaleString('pt-BR')}</span>
+                                    <span>{new Date(funcionario?.pessoa?.createDate).toLocaleString('pt-BR')}</span>
                                 </div>
                                 <div>
                                     <label className="text-xs text-gray-500 block">Última Atualização</label>
-                                    <span>{new Date(funcionario.updateDate).toLocaleString('pt-BR')}</span>
+                                    <span>{new Date(funcionario?.pessoa?.updateDate).toLocaleString('pt-BR')}</span>
                                 </div>
                             </div>
                         </div>

@@ -8,6 +8,9 @@ const Menu = () => {
     const [isEmpresaOpen, setIsEmpresaOpen] = useState(false);
     const [isMotoristaOpen, setIsMotoristaOpen] = useState(false);
     const [isCarroOpen, setIsCarroOpen] = useState(false);
+    const [isEscalaOpen, setIsEscalaOpen] = useState(false);
+    const [isSolicitacaoOpen, setIsSolicitacaoOpen] = useState(false);
+    const [isCorridaOpen, setIsCorridaOpen] = useState(false);
 
     return (
         <div className="bg-blue-700 text-white p-4 w-full relative z-50 shadow-md">
@@ -112,6 +115,75 @@ const Menu = () => {
                                 </Link>
                                 <Link href="/carro/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
                                     Cadastrar Carros
+                                </Link>
+                            </div>
+                        )}
+                    </li>
+                    <li 
+                        className="relative"
+                        onMouseEnter={() => setIsEscalaOpen(true)}
+                        onMouseLeave={() => setIsEscalaOpen(false)}
+                    >
+                        <button className="flex items-center hover:text-gray-300 focus:outline-none transition-colors py-2">
+                            Escalas
+                            <svg className={`ml-1 w-4 h-4 transition-transform ${isEscalaOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isEscalaOpen && (
+                            <div className="absolute left-0 mt-0 w-48 bg-white text-black rounded-md shadow-xl py-2 border border-gray-200">
+                                <Link href="/escala/list" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Listar Escalas
+                                </Link>
+                                <Link href="/escala/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Criar Escalas
+                                </Link>
+                            </div>
+                        )}
+                    </li>
+                    <li 
+                        className="relative"
+                        onMouseEnter={() => setIsSolicitacaoOpen(true)}
+                        onMouseLeave={() => setIsSolicitacaoOpen(false)}
+                    >
+                        <button className="flex items-center hover:text-gray-300 focus:outline-none transition-colors py-2">
+                            Solicitações
+                            <svg className={`ml-1 w-4 h-4 transition-transform ${isSolicitacaoOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isSolicitacaoOpen && (
+                            <div className="absolute left-0 mt-0 w-48 bg-white text-black rounded-md shadow-xl py-2 border border-gray-200">
+                                <Link href="/solicitacoes/list" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Listar Solicitações
+                                </Link>
+                                <Link href="/solicitacoes/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Criar Solicitações
+                                </Link>
+                            </div>
+                        )}
+                    </li>
+                    <li 
+                        className="relative"
+                        onMouseEnter={() => setIsCorridaOpen(true)}
+                        onMouseLeave={() => setIsCorridaOpen(false)}
+                    >
+                        <button className="flex items-center hover:text-gray-300 focus:outline-none transition-colors py-2">
+                            Corrida
+                            <svg className={`ml-1 w-4 h-4 transition-transform ${isCorridaOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {isCorridaOpen && (
+                            <div className="absolute left-0 mt-0 w-48 bg-white text-black rounded-md shadow-xl py-2 border border-gray-200">
+                                <Link href="/corrida/list" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Listar Corridas
+                                </Link>
+                                <Link href="/corrida/create" className="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Chamar Corrida
                                 </Link>
                             </div>
                         )}

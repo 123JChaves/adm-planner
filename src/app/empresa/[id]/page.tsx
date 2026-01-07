@@ -11,8 +11,10 @@ import Swal from "sweetalert2";
 
 interface Funcionario {
     id: number;
-    nome: string;
-    cpf: string;
+    pessoa: {
+        nome: string;
+        cpf: string;
+    }
 }
 
 interface Empresa {

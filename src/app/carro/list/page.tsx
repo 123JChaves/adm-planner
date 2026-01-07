@@ -25,8 +25,10 @@ interface Carro {
 
 interface Motoristas {
     id: number;
+    pessoa: {
     nome: string;
     cpf: string;
+    },
     carroAtual?: Carro;
     carros?: Carro[];
     createDate: string;
@@ -122,23 +124,24 @@ export default function Carro() {
                                             ? c.categorias.map(ca => ca.categoria).join(", ")
                                             : (c.categorias as any).categorias}</td>
                                         <td className="border border-gray-300 p-3">
-                                            <div className="flex flex-col gap-1 text-blue-800">
-                                                {Array.isArray(c.motoristas) && c.motoristas.length > 0 ? (
-                                                    c.motoristas.map((mot) => (
-                                                        <Link
-                                                            key={mot.id}
-                                                            href={`/motorista/${mot.id}`} // Rota para a página de detalhes
-                                                            className="block text-sm bg-blue-50 px-2 py-0.5 rounded border border-blue-100 
-                                                            text-blue-700 hover:bg-blue-600 hover:text-white transition-colors duration-200"
-                                                        >
-                                                            {mot.nome}
-                                                        </Link>
-                                                    ))
-                                                ) : (
-                                                    <span className="text-gray-400 italic">Nenhum</span>
-                                                )}
-                                            </div>
-                                        </td>
+                                        <div className="flex flex-col gap-1">
+                                            {Array.isArray(c.motoristas) && c.motoristas.length > 0 ? (
+                                                c.motoristas.map((mot) => (
+                                                    <Link
+                                                        key={mot.id}
+                                                        href={`/motorista/${mot.id}`}
+                                                        className="block text-xs bg-blue-50 px-2 py-1 rounded border border-blue-100 
+                                                                text-blue-700 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                                                    >
+                                                        {/* Acesso seguro: busca em mot.pessoa.nome ou mot.nome dependendo do seu backend */}
+                                                        {mot.pessoa?.nome || mot.pessoa.nome || `Motorista #${mot.id}`}
+                                                    </Link>
+                                                ))
+                                            ) : (
+                                                <span className="text-gray-400 italic text-xs">Nenhum vinculado</span>
+                                            )}
+                                        </div>
+                                    </td>
                                         <td className="border border-gray-300 p-3">
                                             <div className="flex justify-center items-center gap-2">
                                                 <Link 
@@ -176,6 +179,4 @@ export default function Carro() {
             </div>    
         </div>
     );
-
 }
-

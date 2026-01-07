@@ -24,22 +24,32 @@ export default function HomePage() { // Nome alterado para HomePage para melhor 
 
         {/* Grid de Botões */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link href="/users/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/users/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Usuários
           </Link>
-          <Link href="/motorista/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/motorista/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Motoristas
           </Link>
-          <Link href="/carro/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/carro/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Carros
           </Link>
-          <Link href="/empresa/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/empresa/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Empresas
           </Link>
-          <Link href="/solicitacoes/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/solicitacoes/create" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Solicitações
           </Link>
-          <Link href="/corridas/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow hover:bg-blue-700 text-center font-semibold transition-colors">
+          <Link href="/escala/create" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
+            Gerenciar Escalas
+          </Link>
+          <Link href="/corridas/list" className="bg-blue-600 text-white px-4 py-4 rounded shadow 
+          hover:bg-blue-700 text-center font-semibold transition-colors">
             Gerenciar Corridas
           </Link>
         </div>

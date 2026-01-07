@@ -36,7 +36,7 @@ export default function CreateCarro() {
             const fetchMotorista = async () => {
                 try {
                     const response = await instancia.get(`/motorista/${motoristaId}`);
-                    setMotoristaNome(response.data.nome);
+                    setMotoristaNome(response.data.pessoa?.nome);
                 } catch (err) {
                     console.error("Erro ao buscar nome do motorista");
                 }

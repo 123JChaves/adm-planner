@@ -7,7 +7,6 @@ import instancia from "@/service/api";
 import Menu from "@/components/Menu";
 import Link from "next/link";
 import AlertMessage from "@/components/AlertMessage";
-import DeleteButton from "@/components/DeleteButton";
 import Swal from "sweetalert2";
 
 // Interfaces de tipagem
@@ -25,11 +24,13 @@ interface Carro {
 
 interface Motorista {
     id: number;
-    nome: string;
-    cpf: string;
-    carroAtual?: Carro;
-    carros?: Carro[];
-    createDate: string;
+    pessoa: {
+        nome: string;
+        cpf: string;
+        createDate: string;
+    },  
+        carroAtual?: Carro;
+        carros?: Carro[];
 }
 
 export default function MotoristaDetails() {
@@ -74,7 +75,7 @@ export default function MotoristaDetails() {
                 // --- IMPLEMENTAÇÃO DO SWEETALERT ---
                 Swal.fire({
                     title: "Veículo Principal Atualizado!",
-                    html: `O motorista ${motorista.nome} agora está utilizando o veículo:
+                    html: `O motorista ${motorista.pessoa.nome} agora está utilizando o veículo:
                     <br><b>${novoCarroAtu.modelo} (${novoCarroAtu.placa})</b>`,
                     icon: "success",
                     confirmButtonColor: "#06b6d4", // Cor Cyan-500
@@ -129,27 +130,15 @@ export default function MotoristaDetails() {
         }
     };
 
-    if (loading) return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
-            <Menu /><div className="flex-1 p-10 text-center font-bold italic text-gray-500">Buscando informações...</div>
-        </div>
-    );
-
-    if (!motorista) return (
-        <div className="flex flex-col min-h-screen bg-gray-100 text-black">
-            <Menu /><div className="flex-1 p-10 text-center text-red-500 font-bold">Motorista não encontrado.</div>
-        </div>
-    );
-
     return (
         <div className="flex flex-col min-h-screen bg-gray-200 text-black">
             <Menu />
             
             <div className="flex-1 px-4 py-6 max-w-5xl mx-auto w-full">
-                {/* CABEÇALHO (SEM LINK NO NOME) */}
+
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold uppercase">
-                        {motorista.nome}
+                        {motorista?.pessoa?.nome}
                     </h1>
                     
                     <div className="flex gap-2">
@@ -171,21 +160,33 @@ export default function MotoristaDetails() {
                 <AlertMessage type="error" message={error} />
                 <AlertMessage type="success" message={success} />
 
+                {loading ? (
+                    <div className="flex justify-center items-center py-10">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <span className="ml-3">Carregando informações...</span>
+                    </div>
+                ) : (
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                    {/* DADOS PESSOAIS */}
+                    
                     <div className="bg-white p-6 rounded-lg shadow-md md:col-span-1">
                         <h2 className="text-sm font-bold text-gray-400 uppercase mb-4 border-b pb-2">Dados Pessoais</h2>
                         <div className="space-y-3">
-                            <p className="text-sm"><strong>ID:</strong> {motorista.id}</p>
-                            <p className="text-sm"><strong>CPF:</strong> {motorista.cpf}</p>
-                            <p className="text-sm"><strong>Cadastro:</strong> {new Date(motorista.createDate).toLocaleDateString('pt-BR')}</p>
+                            <p className="text-sm"><strong>ID:</strong> {motorista?.id}</p>
+                            <p className="text-sm"><strong>CPF:</strong> {motorista?.pessoa?.cpf || "---"}</p>
+                            <p className="text-sm">
+                                <strong>Cadastro:</strong> {
+                                    motorista?.pessoa?.createDate 
+                                        ? new Date(motorista.pessoa.createDate).toLocaleDateString('pt-BR') 
+                                        : "---"
+                                }
+                            </p>
                         </div>
-
                         <h2 className="text-sm font-bold text-gray-400 uppercase mt-8 mb-4 border-b pb-2">Status Operacional</h2>
                         <div className="p-3 rounded-md bg-blue-50 border border-blue-200">
                             <label className="block text-[10px] font-bold text-blue-500 uppercase">Em uso agora:</label>
                             <span className="text-sm font-bold text-blue-700">
-                                {motorista.carroAtual ? (
+                                {motorista?.carroAtual ? (
                                     <Link href={`/carro/${motorista.carroAtual.id}`} className="hover:underline">
                                         {motorista.carroAtual.modelo} ({motorista.carroAtual.placa}) 
                                         {motorista.carroAtual.categorias && motorista.carroAtual.categorias.length > 0 && (
@@ -197,24 +198,22 @@ export default function MotoristaDetails() {
                         </div>
                     </div>
 
-                    {/* GESTÃO DA FROTA */}
                     <div className="bg-white p-6 rounded-lg shadow-md md:col-span-2">
                         <div className="flex justify-between items-center mb-4 border-b pb-2">
                             <h2 className="text-sm font-bold text-gray-400 uppercase">Veículos Vinculados</h2>
                             <Link 
-                                href={`/carro/create?motoristaId=${motorista.id}`}
+                                href={`/carro/create?motoristaId=${motorista?.id}`}
                                 className="bg-green-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-green-700 transition-all"
                             >
                                 + Novo Veículo
                             </Link>
                         </div>
 
-                        {motorista.carros && motorista.carros.length > 0 ? (
+                        {motorista?.carros && motorista.carros.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {motorista.carros.map((carro) => (
                                     <div key={carro.id} className="border p-3 rounded-md flex justify-between items-center hover:bg-gray-50 transition-all shadow-sm">
                                         <div>
-                                            {/* LINK PARA DETALHES DO CARRO */}
                                             <Link href={`/carro/${carro.id}`} className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
                                                 {carro.modelo}
                                             </Link>
@@ -241,7 +240,6 @@ export default function MotoristaDetails() {
                                                 {motorista.carroAtual?.id === carro.id ? "Em uso" : "Usar"}
                                             </button>
 
-                                            {/* BOTÃO DESVINCULAR */}
                                             <button 
                                                 onClick={() => handleDesvincular(carro.id)}
                                                 title="Remover vínculo deste motorista"
@@ -273,6 +271,7 @@ export default function MotoristaDetails() {
                         )}
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );
